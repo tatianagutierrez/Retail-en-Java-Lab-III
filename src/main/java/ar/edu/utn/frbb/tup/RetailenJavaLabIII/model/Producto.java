@@ -9,10 +9,12 @@ public class Producto {
     private Categoria categoria;
     private String marca;
     private double precioLista;
-    private String tipo; //no se a que se refiere, es lo mismo que categoria ?
+    private String tipo;
     private Map<String, String> especificaciones;
 
-    public Producto(String id, String nombre, String descripcion, Categoria categoria, String marca, double precioLista, String tipo, Map<String, String> especificaciones) {
+    public Producto(){}
+
+    public Producto(String id, String nombre, String descripcion, Categoria categoria, String marca, double precioLista, String tipo) {
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
@@ -20,7 +22,6 @@ public class Producto {
         this.marca = marca;
         this.precioLista = precioLista;
         this.tipo = tipo;
-        this.especificaciones = especificaciones;
     }
 
     public String getId() {
