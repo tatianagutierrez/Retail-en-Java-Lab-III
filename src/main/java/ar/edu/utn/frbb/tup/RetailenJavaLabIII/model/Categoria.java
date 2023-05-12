@@ -8,11 +8,12 @@ public class Categoria {
     private String descripcion;
     private ArrayList<Producto> listaProductos;
 
-    public Categoria(String id, String nombre, String descripcion, ArrayList<Producto> listaProductos) {
+    public Categoria(){}
+
+    public Categoria(String id, String nombre, String descripcion) {
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
-        this.listaProductos = listaProductos;
     }
 
     public String getId() {

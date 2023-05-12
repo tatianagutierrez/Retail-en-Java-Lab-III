@@ -7,7 +7,7 @@ public interface CategoriaBusiness {
 
     Categoria altaCategoria(CategoriaDto dto);
 
-    Categoria modificacionCategoria(CategoriaDto dto);
+    Categoria modificarCategoria(CategoriaDto dto);
 
     boolean bajaCategoria(CategoriaDto dto);
 }
