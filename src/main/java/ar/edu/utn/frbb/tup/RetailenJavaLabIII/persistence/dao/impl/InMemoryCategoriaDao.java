@@ -2,10 +2,12 @@ package ar.edu.utn.frbb.tup.RetailenJavaLabIII.persistence.dao.impl;
 
 import ar.edu.utn.frbb.tup.RetailenJavaLabIII.model.Categoria;
 import ar.edu.utn.frbb.tup.RetailenJavaLabIII.persistence.dao.CategoriaDao;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.UUID;
 
+@Repository
 public class InMemoryCategoriaDao implements CategoriaDao {
 
     private ArrayList<Categoria> categorias = new ArrayList<>();
@@ -15,8 +17,8 @@ public class InMemoryCategoriaDao implements CategoriaDao {
         // Genera una cadena unica de 36 caracteres
         UUID uuid = UUID.randomUUID();
         String id = uuid.toString();
-
         categoria.setId(id);
+
         categorias.add(categoria);
         System.out.println("Se guardo correctamente");
         return categoria;
@@ -56,7 +58,7 @@ public class InMemoryCategoriaDao implements CategoriaDao {
 
         if (!categorias.isEmpty()){
             for (Categoria categoria : categorias){
-                if (categoria.getId().equalsIgnoreCase(id)){
+                if (categoria.getId().equals(id)){
                     categoriaEncontrada = categoria;
                     break;
                 }

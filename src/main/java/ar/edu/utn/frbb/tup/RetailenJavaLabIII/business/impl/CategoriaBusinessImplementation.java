@@ -5,7 +5,9 @@ import ar.edu.utn.frbb.tup.RetailenJavaLabIII.dto.CategoriaDto;
 import ar.edu.utn.frbb.tup.RetailenJavaLabIII.model.Categoria;
 import ar.edu.utn.frbb.tup.RetailenJavaLabIII.persistence.dao.CategoriaDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class CategoriaBusinessImplementation implements CategoriaBusiness {
 
     @Autowired

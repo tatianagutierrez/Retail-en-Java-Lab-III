@@ -2,10 +2,12 @@ package ar.edu.utn.frbb.tup.RetailenJavaLabIII.persistence.dao.impl;
 
 import ar.edu.utn.frbb.tup.RetailenJavaLabIII.model.Producto;
 import ar.edu.utn.frbb.tup.RetailenJavaLabIII.persistence.dao.ProductoDao;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.UUID;
 
+@Repository
 public class InMemoryProductoDao implements ProductoDao {
 
     private ArrayList<Producto> productos = new ArrayList<>();

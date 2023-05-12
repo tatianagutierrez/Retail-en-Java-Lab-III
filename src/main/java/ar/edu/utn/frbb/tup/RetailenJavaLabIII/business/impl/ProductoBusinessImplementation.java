@@ -5,7 +5,9 @@ import ar.edu.utn.frbb.tup.RetailenJavaLabIII.dto.ProductoDto;
 import ar.edu.utn.frbb.tup.RetailenJavaLabIII.model.Producto;
 import ar.edu.utn.frbb.tup.RetailenJavaLabIII.persistence.dao.ProductoDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class ProductoBusinessImplementation implements ProductoBusiness {
 
     @Autowired
