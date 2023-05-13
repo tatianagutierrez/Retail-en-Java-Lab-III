@@ -40,11 +40,9 @@ public class InMemoryProductoDao implements ProductoDao {
     public boolean eliminar(Producto producto) {
         if (producto != null){
             productos.remove(producto);
-            System.out.println("El producto fue eliminada con exito");
             return true;
         }
         else{
-            System.out.println("El producto no existe");
             return false;
         }
     }

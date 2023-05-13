@@ -6,14 +6,18 @@ import java.util.Map;
 
 public class ProductoDto {
 
-    private final String id;
-    private final String nombre;
-    private final String descripcion;
-    private final Categoria categoria;
-    private final String marca;
-    private final double precioLista;
-    private final String tipo;
-    private final Map<String, String> especificaciones;
+    private String id;
+    private String nombre;
+    private String descripcion;
+    private Categoria categoria;
+    private String marca;
+    private double precioLista;
+    private String tipo;
+    private Map<String, String> especificaciones;
+
+    public ProductoDto(String id){
+        this.id = id;
+    }
 
     public ProductoDto(String id, String nombre, String descripcion, Categoria categoria, String marca, double precioLista, String tipo, Map<String, String> especificaciones) {
         this.id = id;
@@ -26,9 +30,12 @@ public class ProductoDto {
         this.especificaciones = especificaciones;
     }
 
-
     public String getId() {
         return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getNombre() {

@@ -41,11 +41,9 @@ public class InMemoryCategoriaDao implements CategoriaDao {
 
         if (categoria != null){
             categorias.remove(categoria);
-            System.out.println("La categoria fue eliminada con exito");
             return true;
         }
         else{
-            System.out.println("La categoria no existe");
             return false;
         }
 
