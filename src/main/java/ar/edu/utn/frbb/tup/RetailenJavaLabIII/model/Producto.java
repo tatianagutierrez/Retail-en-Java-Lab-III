@@ -8,19 +8,19 @@ public class Producto {
     private String descripcion;
     private Categoria categoria;
     private String marca;
-    private double precioLista;
+    private double precio;
     private String tipo;
     private Map<String, String> especificaciones;
 
     public Producto(){}
 
-    public Producto(String id, String nombre, String descripcion, Categoria categoria, String marca, double precioLista, String tipo) {
+    public Producto(String id, String nombre, String descripcion, Categoria categoria, String marca, double precio, String tipo) {
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.categoria = categoria;
         this.marca = marca;
-        this.precioLista = precioLista;
+        this.precio = precio;
         this.tipo = tipo;
     }
 
@@ -64,12 +64,12 @@ public class Producto {
         this.marca = marca;
     }
 
-    public double getPrecioLista() {
-        return precioLista;
+    public double getPrecio() {
+        return precio;
     }
 
-    public void setPrecioLista(double precioLista) {
-        this.precioLista = precioLista;
+    public void setPrecio(double precio) {
+        this.precio = precio;
     }
 
     public String getTipo() {

@@ -19,8 +19,7 @@ public class ProductoDto {
         this.id = id;
     }
 
-    public ProductoDto(String id, String nombre, String descripcion, Categoria categoria, String marca, double precioLista, String tipo, Map<String, String> especificaciones) {
-        this.id = id;
+    public ProductoDto(String nombre, String descripcion, Categoria categoria, String marca, double precioLista, String tipo, Map<String, String> especificaciones) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.categoria = categoria;
@@ -54,7 +53,7 @@ public class ProductoDto {
         return marca;
     }
 
-    public double getPrecioLista() {
+    public double getPrecio() {
         return precioLista;
     }
 

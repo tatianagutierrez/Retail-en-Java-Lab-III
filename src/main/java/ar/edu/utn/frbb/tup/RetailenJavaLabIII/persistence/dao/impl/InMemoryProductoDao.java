@@ -5,12 +5,19 @@ import ar.edu.utn.frbb.tup.RetailenJavaLabIII.persistence.dao.ProductoDao;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Repository
 public class InMemoryProductoDao implements ProductoDao {
 
-    private ArrayList<Producto> productos = new ArrayList<>();
+    private final ArrayList<Producto> productos = new ArrayList<>();
+
+    @Override
+    public ArrayList<Producto> getListaDeProductos() {
+        return productos;
+    }
 
     @Override
     public Producto guardar(Producto producto) {
@@ -65,5 +72,14 @@ public class InMemoryProductoDao implements ProductoDao {
         }
 
         return productoEncontrada;
+    }
+
+    @Override
+    public List<Producto> buscarProductosByAtributos(String tipo, String marca, String categoria) {
+        return getListaDeProductos().stream()
+                .filter(producto -> producto.getTipo().equalsIgnoreCase(tipo))
+                .filter(producto -> producto.getMarca().equalsIgnoreCase(marca))
+                .filter(producto -> producto.getCategoria().getNombre().equalsIgnoreCase(categoria))
+                .collect(Collectors.toList());
     }
 }
