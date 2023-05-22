@@ -1,80 +1,109 @@
 package ar.edu.utn.frbb.tup.RetailenJavaLabIII.persistence.dao;
 
+import ar.edu.utn.frbb.tup.RetailenJavaLabIII.BaseTest;
 import ar.edu.utn.frbb.tup.RetailenJavaLabIII.model.Categoria;
-import ar.edu.utn.frbb.tup.RetailenJavaLabIII.persistence.dao.impl.InMemoryCategoriaDao;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
+import ar.edu.utn.frbb.tup.RetailenJavaLabIII.model.Producto;
+import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
-
 import org.springframework.boot.test.context.SpringBootTest;
+import java.util.List;
 
 @SpringBootTest
-public class InMemoryCategoriaDaoTest {
+public class InMemoryCategoriaDaoTest extends BaseTest {
 
-    CategoriaDao dao;
-
-    @BeforeEach
-    public void configuracion(){
-        dao = new InMemoryCategoriaDao();
-    }
 
     @Test
     public void guardarCategoria(){
-
-        Categoria categoria = new Categoria("A-123", "Audio y television", "Equipos de audio y television para el hogar");
-
-        Categoria categoriaGuardada = dao.guardar(categoria);
+        Categoria categoriaGuardada = daoCategoria.guardar(categoria1);
         System.out.println(categoriaGuardada);
-        Assertions.assertNotNull(categoriaGuardada);
-        Assertions.assertEquals(categoria, categoriaGuardada);
+        assertNotNull(categoriaGuardada);
+        assertEquals(categoria1, categoriaGuardada);
     }
 
 
     @Test
     public void buscarCategoria(){
-        CategoriaDao dao = new InMemoryCategoriaDao();
+        daoCategoria.guardar(categoria1);
 
-        Categoria categoria = new Categoria("B-123", "Electrónica", "Categoría de productos electrónicos");
-        dao.guardar(categoria);
+        Categoria categoriaEncontrada = daoCategoria.buscarCategoria(categoria1.getId());
 
-        Categoria categoriaEncontrada = dao.buscarCategoria(categoria.getId());
-
-        Assertions.assertNotNull(categoriaEncontrada);
-        Assertions.assertEquals(categoria, categoriaEncontrada);
+        assertNotNull(categoriaEncontrada);
+        assertEquals(categoria1, categoriaEncontrada);
     }
 
     @Test
-    public void editarCategoriaTest(){
+    public void editarCategoria(){
         //Guardo
-        Categoria categoria = new Categoria("C-123", "Hogar y muebles", "Categoría de productos del hogar");
-        System.out.println("Categoria inicial: " + categoria);
-        dao.guardar(categoria);
+        System.out.println("Categoria inicial: " + categoria1);
+        daoCategoria.guardar(categoria1);
 
         //Edito
-        categoria.setNombre("Informatica");
-        categoria.setDescripcion("Categoria de productos de informatica");
-        dao.editar(categoria);
-        System.out.println("Categoria editada: " + categoria);
+        categoria1.setNombre("Informatica");
+        categoria1.setDescripcion("Categoria de productos de informatica");
+        daoCategoria.editar(categoria1);
+        System.out.println("Categoria editada: " + categoria1);
 
         //Verifico que se edito
-        Categoria categoriaEncontrada = dao.buscarCategoria(categoria.getId());
-        Assertions.assertEquals("Informatica", categoriaEncontrada.getNombre());
-        Assertions.assertEquals("Categoria de productos de informatica", categoriaEncontrada.getDescripcion());
+        Categoria categoriaEncontrada = daoCategoria.buscarCategoria(categoria1.getId());
+        assertEquals("Informatica", categoriaEncontrada.getNombre());
+        assertEquals("Categoria de productos de informatica", categoriaEncontrada.getDescripcion());
 
     }
 
     @Test
     public void eliminarCategoria(){
-        Categoria categoria1 = new Categoria("A-123", "Audio y television", "Equipos de audio y television para el hogar");
-        Categoria categoria2 = new Categoria("D-123", "Salud y Aire libre ", "Categoría de productos deportivos");
+        daoCategoria.guardar(categoria1);
+        daoCategoria.guardar(categoria2);
 
-        dao.guardar(categoria1);
-        dao.guardar(categoria2);
+        boolean categoriaEliminada = daoCategoria.eliminar(categoria2);
+        Categoria categoriaEncontrada = daoCategoria.buscarCategoria(categoria2.getId());
 
-        System.out.println(dao.eliminar(categoria2));
+        assertTrue(categoriaEliminada);
+        assertNull(categoriaEncontrada);
+    }
 
-        Categoria categoriaEncontrada = dao.buscarCategoria(categoria2.getId());
+    @Test
+    public void getProductosPorPrecioAsc() {
+        categoria1.agregarProducto(producto1);
+        categoria1.agregarProducto(producto2);
+        categoria1.agregarProducto(producto3);
+        daoCategoria.guardar(categoria1);
 
-        Assertions.assertNull(categoriaEncontrada);
+        List<Producto> lista = daoCategoria.getProductosPorPrecioAsc(categoria1);
+
+        assertNotNull(lista);
+        assertFalse(lista.isEmpty());
+        assertTrue(lista.size() > 1);
+
+        Producto previo = null;
+        for (Producto actual : lista) {
+            if (previo != null) {
+                assertTrue(actual.getPrecio() >= previo.getPrecio());
+            }
+            previo = actual;
+        }
+
+        System.out.println(lista.get(0).getPrecio());
+        System.out.println(lista.get(1).getPrecio());
+        System.out.println(lista.get(2).getPrecio());
+    }
+
+    @Test
+    public void getProductosFiltradosByPrecios(){
+        categoria1.agregarProducto(producto1);
+        categoria1.agregarProducto(producto2);
+        categoria1.agregarProducto(producto3);
+        daoCategoria.guardar(categoria1);
+
+        List<Producto> lista = daoCategoria.getProductosFiltradosByPrecios(categoria1, 50000.00, 100000.00);
+
+        assertNotNull(lista);
+        assertFalse(lista.isEmpty());
+        assertTrue(lista.size() > 1);
+
+        assertTrue(lista.stream().allMatch(p -> p.getPrecio() >= 50000.00 && p.getPrecio() <= 100000.00));
+
+        System.out.println(lista.get(0).getPrecio());
+        System.out.println(lista.get(1).getPrecio());
     }
 }
