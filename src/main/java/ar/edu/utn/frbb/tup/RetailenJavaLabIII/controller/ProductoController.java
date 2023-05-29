@@ -4,6 +4,7 @@ import ar.edu.utn.frbb.tup.RetailenJavaLabIII.business.ProductoBusiness;
 import ar.edu.utn.frbb.tup.RetailenJavaLabIII.dto.ProductoDto;
 import ar.edu.utn.frbb.tup.RetailenJavaLabIII.model.Producto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,7 +15,7 @@ public class ProductoController {
     @Autowired
     ProductoBusiness productoBusiness;
 
-    @PostMapping(value = "/producto")
+    @PostMapping(value = "/producto", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public Producto crearProducto(@RequestBody ProductoDto dto){
         return productoBusiness.altaProducto(dto);
     }
@@ -24,7 +25,7 @@ public class ProductoController {
         return productoBusiness.consultarProductoById(id);
     }
 
-    @PutMapping(value = "/producto/{id}")
+    @PutMapping(value = "/producto/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public Producto editarProducto(@RequestBody ProductoDto dto, @PathVariable String id){
         dto.setId(id);
         return productoBusiness.modificacionProducto(dto);
@@ -36,8 +37,8 @@ public class ProductoController {
         return productoBusiness.bajaProducto(dto) ? "El producto fue eliminada con exito" : "El producto no existe";
     }
 
-    @GetMapping(value = "/producto?tipo_producto={tipo}&marca={marca}&cateogoria={categoria}")
-    public List<Producto> getProductosByAtributos(@PathVariable String tipo, @PathVariable String marca, @PathVariable String categoria) {
-        return productoBusiness.consultarProductosByAtributos(tipo, marca, categoria);
+    @GetMapping(value = "/producto")
+    public List<Producto> getProductosByAtributos(@RequestParam("tipo_producto") String tipo, @RequestParam("marca") String marca, @RequestParam("categoria_id") String categoriaId) {
+        return productoBusiness.consultarProductosByAtributos(tipo, marca, categoriaId);
     }
 }
