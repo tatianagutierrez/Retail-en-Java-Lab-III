@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Repository
@@ -32,56 +33,58 @@ public class InMemoryProductoDao implements ProductoDao {
     @Override
     public Producto guardar(Producto producto) {
 
-        Categoria catIngresada = producto.getCategoria();
-        Categoria catEncontrada = categoriaDao.buscarCategoria(catIngresada.getId());
+        try{
+            Categoria categoria = categoriaDao.buscarCategoria(producto.getCategoriaId());
 
-        //Si no existe la categoria, la creo y despues le agrego el producto
-        if (catEncontrada == null){
-            categoriaDao.guardar(catIngresada);
-            catIngresada.agregarProducto(producto);
+            categoria.agregarProducto(producto);
+            todosLosProductos.add(producto);
+            System.out.println("Se guardo el producto correctamente");
+        } catch (NoSuchElementException e) {
+            System.out.println(e.getMessage());
+            return null;
         }
-        else{
-            catIngresada.agregarProducto(producto);
-        }
 
-        todosLosProductos.add(producto);
-
-        System.out.println("Se guardo el producto correctamente");
         return producto;
+
     }
 
     @Override
     public Producto editar(Producto producto) {
+        try {
+            Categoria categoria = categoriaDao.buscarCategoria(producto.getCategoriaId());
 
-        if (producto != null) {
-            Categoria cat = producto.getCategoria();
+            int index = productosDeCategoria(categoria).indexOf(producto);
+            productosDeCategoria(categoria).add(index, producto);
 
-            if (cat != null){
-                int index = productosDeCategoria(cat).indexOf(producto);
-                productosDeCategoria(cat).add(index, producto);
+            int index2 = todosLosProductos.indexOf(producto);
+            todosLosProductos.add(index2, producto);
 
-                int index2 = todosLosProductos.indexOf(producto);
-                todosLosProductos.add(index2, producto);
-                System.out.println("Se editó correctamente");
-            }
+            System.out.println("Se editó correctamente");
+        } catch (NoSuchElementException e) {
+            System.out.println(e.getMessage());
+            return null;
         }
+
         return producto;
     }
 
     @Override
     public boolean eliminar(Producto producto) {
-        if (producto != null){
-            productosDeCategoria(producto.getCategoria()).remove(producto);
+
+        try {
+            Categoria categoria = categoriaDao.buscarCategoria(producto.getCategoriaId());
+            productosDeCategoria(categoria).remove(producto);
             todosLosProductos.remove(producto);
             return true;
+        } catch (NoSuchElementException e) {
+            System.out.println(e.getMessage());
         }
-        else{
-            return false;
-        }
+
+        return false;
     }
 
     @Override
-    public Producto buscarProductoById(String id) {
+    public Producto buscarProductoById(String id) throws NoSuchElementException{
 
         Producto productoEncontrada = null;
 
@@ -93,19 +96,21 @@ public class InMemoryProductoDao implements ProductoDao {
                 }
             }
         }
-        else {
-            System.out.println("El producto no existe");
+
+
+        if (productoEncontrada == null) {
+            throw new NoSuchElementException("El producto no existe");
         }
 
         return productoEncontrada;
     }
 
     @Override
-    public List<Producto> buscarProductosByAtributos(String tipo, String marca, String categoria) {
+    public List<Producto> buscarProductosByAtributos(String tipo, String marca, String categoriaId) {
         return getListaDeProductos().stream()
                 .filter(producto -> producto.getTipo().equalsIgnoreCase(tipo))
                 .filter(producto -> producto.getMarca().equalsIgnoreCase(marca))
-                .filter(producto -> producto.getCategoria().getNombre().equalsIgnoreCase(categoria))
+                .filter(producto -> producto.getCategoriaId().equals(categoriaId))
                 .collect(Collectors.toList());
     }
 }

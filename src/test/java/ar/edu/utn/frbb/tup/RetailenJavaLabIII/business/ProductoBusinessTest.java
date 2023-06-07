@@ -36,13 +36,13 @@ public class ProductoBusinessTest {
         especificaciones.put("Peso", "8.3");
 
 
-        ProductoDto dto = new ProductoDto("Tv samsung", "Una descripcion..", cat, "samsung", 1800, "televisor", especificaciones);
+        ProductoDto dto = new ProductoDto("Tv samsung", "Una descripcion..", cat.getId(), "samsung", 1800, "televisor", especificaciones);
 
         Mockito.when(dao.guardar(Mockito.any())).thenReturn(new Producto());
         Mockito.when(dao.buscarProductoById(dto.getId())).thenReturn(new Producto());
 
         Producto producto = impl.altaProducto(dto);
 
-        System.out.println(producto.toString());
+        System.out.println(producto);
     }
 }

@@ -1,30 +1,31 @@
 package ar.edu.utn.frbb.tup.RetailenJavaLabIII.dto;
 
-import ar.edu.utn.frbb.tup.RetailenJavaLabIII.model.Categoria;
-
+import java.io.Serializable;
 import java.util.Map;
 
-public class ProductoDto {
+public class ProductoDto implements Serializable {
 
     private String id;
     private String nombre;
     private String descripcion;
-    private Categoria categoria;
+    private String categoriaId;
     private String marca;
-    private double precioLista;
+    private double precio;
     private String tipo;
     private Map<String, String> especificaciones;
+
+    public ProductoDto(){}
 
     public ProductoDto(String id){
         this.id = id;
     }
 
-    public ProductoDto(String nombre, String descripcion, Categoria categoria, String marca, double precioLista, String tipo, Map<String, String> especificaciones) {
+    public ProductoDto(String nombre, String descripcion, String categoriaId, String marca, double precio, String tipo, Map<String, String> especificaciones) {
         this.nombre = nombre;
         this.descripcion = descripcion;
-        this.categoria = categoria;
+        this.categoriaId = categoriaId;
         this.marca = marca;
-        this.precioLista = precioLista;
+        this.precio = precio;
         this.tipo = tipo;
         this.especificaciones = especificaciones;
     }
@@ -45,8 +46,8 @@ public class ProductoDto {
         return descripcion;
     }
 
-    public Categoria getCategoria() {
-        return categoria;
+    public String getCategoriaId() {
+        return categoriaId;
     }
 
     public String getMarca() {
@@ -54,7 +55,7 @@ public class ProductoDto {
     }
 
     public double getPrecio() {
-        return precioLista;
+        return precio;
     }
 
     public String getTipo() {
@@ -63,5 +64,33 @@ public class ProductoDto {
 
     public Map<String, String> getEspecificaciones() {
         return especificaciones;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public void setCategoriaId(String categoriaId) {
+        this.categoriaId = categoriaId;
+    }
+
+    public void setMarca(String marca) {
+        this.marca = marca;
+    }
+
+    public void setPrecio(double precio) {
+        this.precio = precio;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
+
+    public void setEspecificaciones(Map<String, String> especificaciones) {
+        this.especificaciones = especificaciones;
     }
 }

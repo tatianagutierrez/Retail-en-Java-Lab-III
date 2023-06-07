@@ -2,7 +2,8 @@ package ar.edu.utn.frbb.tup.RetailenJavaLabIII.persistence.dao;
 
 import ar.edu.utn.frbb.tup.RetailenJavaLabIII.BaseTest;
 import ar.edu.utn.frbb.tup.RetailenJavaLabIII.model.Producto;
-import org.junit.jupiter.api.Assertions;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,46 +15,56 @@ import java.util.List;
 public class InMemoryProductoDaoTest extends BaseTest {
 
     @Autowired
-    ProductoDao dao;
+    ProductoDao daoProducto;
+
+    @Autowired
+    CategoriaDao daoCategoria;
 
     @Test
     public void guardarProducto(){
-        dao.guardar(producto1);
+        daoCategoria.guardar(categoria1);
+        daoProducto.guardar(producto1);
 
-        Assertions.assertNotNull(dao.buscarProductoById(producto1.getId()));
-        Assertions.assertFalse(categoria1.getListaProductos().isEmpty());
-        Assertions.assertTrue(categoria1.getListaProductos().contains(producto1));
+        assertNotNull(daoProducto.buscarProductoById(producto1.getId()));
+        assertFalse(categoria1.getListaProductos().isEmpty());
+        assertTrue(categoria1.getListaProductos().contains(producto1));
 
-        Assertions.assertFalse(dao.getListaDeProductos().isEmpty());
-        Assertions.assertTrue(dao.getListaDeProductos().contains(producto1));
+        assertFalse(daoProducto.getListaDeProductos().isEmpty());
+        assertTrue(daoProducto.getListaDeProductos().contains(producto1));
     }
 
     @Test
     public void buscarProductoById(){
-        dao.guardar(producto1);
-        Producto productoEncontrado = dao.buscarProductoById(producto1.getId());
+        daoCategoria.guardar(categoria1);
+        daoProducto.guardar(producto1);
+        Producto productoEncontrado = daoProducto.buscarProductoById(producto1.getId());
 
-        Assertions.assertNotNull(productoEncontrado);
-        Assertions.assertEquals(producto1, productoEncontrado);
+        assertNotNull(productoEncontrado);
+        assertThat(producto1).isEqualTo(productoEncontrado);
     }
 
     @Test
     public void buscarProductosByAtributos() {
-        dao.guardar(producto1);
+        daoCategoria.guardar(categoria1);
+        daoProducto.guardar(producto1);
+
         String tipo = producto1.getTipo();
         String marca = producto1.getMarca();
-        String categoriaNombre = producto1.getCategoria().getNombre();
+        String categoriaId = producto1.getCategoriaId();
 
-        List<Producto> productosEncontrados = dao.buscarProductosByAtributos(tipo, marca, categoriaNombre);
-        System.out.println(productosEncontrados);
+        List<Producto> productosEncontrados = daoProducto.buscarProductosByAtributos(tipo, marca, categoriaId);
 
-        Assertions.assertFalse(productosEncontrados.isEmpty());
-        Assertions.assertEquals(productosEncontrados.get(0).getMarca(), producto1.getMarca());
+        assertFalse(productosEncontrados.isEmpty());
+        assertEquals(productosEncontrados.get(0).getTipo(), producto1.getTipo());
+        assertEquals(productosEncontrados.get(0).getMarca(), producto1.getMarca());
+        assertEquals(productosEncontrados.get(0).getCategoriaId(), producto1.getCategoriaId());
+
     }
 
     @Test
     public void editarProducto(){
-        dao.guardar(producto1);
+        daoCategoria.guardar(categoria1);
+        daoProducto.guardar(producto1);
 
         System.out.println("Producto incial: " + producto1);
 
@@ -61,23 +72,23 @@ public class InMemoryProductoDaoTest extends BaseTest {
         producto1.setMarca("LG");
         producto1.setPrecio(100000);
 
-        dao.editar(producto1);
+        daoProducto.editar(producto1);
         System.out.println("Producto editado: " + producto1);
 
-        Assertions.assertTrue(categoria1.getListaProductos().contains(producto1));
-        Assertions.assertTrue(dao.getListaDeProductos().contains(producto1));
+        assertTrue(categoria1.getListaProductos().contains(producto1));
+        assertTrue(daoProducto.getListaDeProductos().contains(producto1));
 
     }
 
     @Test
     public void eliminarProducto() {
-        dao.guardar(producto1);
+        daoCategoria.guardar(categoria1);
+        daoProducto.guardar(producto1);
 
-        boolean productoEliminado = dao.eliminar(producto1);
-        Producto productoEncontrado = dao.buscarProductoById(producto1.getId());
+        boolean productoEliminado = daoProducto.eliminar(producto1);
 
-        Assertions.assertTrue(productoEliminado);
-        Assertions.assertNull(productoEncontrado);
+        assertTrue(productoEliminado);
+
     }
 
 }

@@ -6,7 +6,7 @@ public class Producto {
     private String id;
     private String nombre;
     private String descripcion;
-    private Categoria categoria;
+    private String categoriaId;
     private String marca;
     private double precio;
     private String tipo;
@@ -14,14 +14,15 @@ public class Producto {
 
     public Producto(){}
 
-    public Producto(String id, String nombre, String descripcion, Categoria categoria, String marca, double precio, String tipo) {
+    public Producto(String id, String nombre, String descripcion, String categoriaId, String marca, double precio, String tipo, Map<String, String> especificaciones) {
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
-        this.categoria = categoria;
+        this.categoriaId = categoriaId;
         this.marca = marca;
         this.precio = precio;
         this.tipo = tipo;
+        this.especificaciones = especificaciones;
     }
 
     public String getId() {
@@ -48,12 +49,12 @@ public class Producto {
         this.descripcion = descripcion;
     }
 
-    public Categoria getCategoria() {
-        return categoria;
+    public String getCategoriaId() {
+        return categoriaId;
     }
 
-    public void setCategoria(Categoria categoria) {
-        this.categoria = categoria;
+    public void setCategoriaId(String categoriaId) {
+        this.categoriaId = categoriaId;
     }
 
     public String getMarca() {
@@ -86,5 +87,19 @@ public class Producto {
 
     public void setEspecificaciones(Map<String, String> especificaciones) {
         this.especificaciones = especificaciones;
+    }
+
+    @Override
+    public String toString() {
+        return "Producto{" +
+                "id='" + id + '\'' +
+                ", nombre='" + nombre + '\'' +
+                ", descripcion='" + descripcion + '\'' +
+                ", categoria=" + categoriaId +
+                ", marca='" + marca + '\'' +
+                ", precio=" + precio +
+                ", tipo='" + tipo + '\'' +
+                ", especificaciones=" + especificaciones +
+                '}';
     }
 }

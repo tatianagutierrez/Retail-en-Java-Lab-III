@@ -83,9 +83,7 @@ public class InMemoryCategoriaDaoTest extends BaseTest {
             previo = actual;
         }
 
-        System.out.println(lista.get(0).getPrecio());
-        System.out.println(lista.get(1).getPrecio());
-        System.out.println(lista.get(2).getPrecio());
+        System.out.println(lista);
     }
 
     @Test
@@ -103,7 +101,24 @@ public class InMemoryCategoriaDaoTest extends BaseTest {
 
         assertTrue(lista.stream().allMatch(p -> p.getPrecio() >= 50000.00 && p.getPrecio() <= 100000.00));
 
-        System.out.println(lista.get(0).getPrecio());
-        System.out.println(lista.get(1).getPrecio());
+        System.out.println(lista);
+    }
+
+    @Test
+    public void getProductosByMarca(){
+        categoria1.agregarProducto(producto1);
+        categoria1.agregarProducto(producto2);
+        categoria1.agregarProducto(producto3);
+        daoCategoria.guardar(categoria1);
+
+        List<Producto> lista = daoCategoria.getProductosByMarca(categoria1, "Samsung");
+
+        assertNotNull(lista);
+        assertFalse(lista.isEmpty());
+        assertTrue(lista.size() > 1);
+
+        assertTrue(lista.stream().allMatch(p -> p.getMarca().equalsIgnoreCase("Samsung")));
+
+        System.out.println(lista);
     }
 }
