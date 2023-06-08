@@ -59,7 +59,13 @@ public class ProductoBusinessImplementation implements ProductoBusiness {
 
     @Override
     public Producto consultarProductoById(String id) {
-        return dao.buscarProductoById(id);
+        try{
+            return dao.buscarProductoById(id);
+
+        } catch (NoSuchElementException e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
     }
 
     @Override
