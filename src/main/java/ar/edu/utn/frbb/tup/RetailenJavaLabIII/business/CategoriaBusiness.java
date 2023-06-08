@@ -13,6 +13,8 @@ public interface CategoriaBusiness {
 
     boolean bajaCategoria(CategoriaDto dto);
 
+    Categoria consultarCategoriaById(String id);
+
     List<Producto> getProductosOrdenadosByPrecioAsc(CategoriaDto dto);
 
     List<Producto> getProductosOrdenadosByPrecioDesc(CategoriaDto dto);

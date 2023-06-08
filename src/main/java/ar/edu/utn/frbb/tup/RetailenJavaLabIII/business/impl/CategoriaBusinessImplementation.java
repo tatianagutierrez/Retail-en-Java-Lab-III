@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.UUID;
 
 
@@ -48,6 +49,17 @@ public class CategoriaBusinessImplementation implements CategoriaBusiness {
     public boolean bajaCategoria(CategoriaDto dto) {
         Categoria categoria = dao.buscarCategoria(dto.getId());
         return dao.eliminar(categoria);
+    }
+
+    @Override
+    public Categoria consultarCategoriaById(String id) {
+        try{
+            return dao.buscarCategoria(id);
+
+        } catch (NoSuchElementException e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
     }
 
     @Override

@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class CategoriaController {
@@ -50,9 +51,7 @@ public class CategoriaController {
 
         if (marca != null){
             productos = categoriaBusiness.getProductosByMarca(dto, marca);
-            System.out.println(productos);
-            System.out.println("entro a marca");
-            ResponseEntity.ok(productos);
+            return ResponseEntity.ok(productos);
         }
         else if (orden != null){
 
@@ -71,7 +70,9 @@ public class CategoriaController {
             return ResponseEntity.ok(productos);
         }
 
-        return ResponseEntity.ok(categoriaBusiness.consultarCategoriaById(id));
+        return Optional.ofNullable(categoriaBusiness.consultarCategoriaById(id))
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 }
 

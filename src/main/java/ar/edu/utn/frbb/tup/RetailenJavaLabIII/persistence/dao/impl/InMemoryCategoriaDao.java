@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Repository
@@ -23,7 +24,7 @@ public class InMemoryCategoriaDao implements CategoriaDao {
     public Categoria guardar(Categoria categoria) {
 
         categorias.add(categoria);
-        System.out.println("Se guardo correctamente");
+        System.out.println("Se guardo la categoría correctamente");
         return categoria;
 
     }
@@ -33,7 +34,7 @@ public class InMemoryCategoriaDao implements CategoriaDao {
         if (categoria != null) {
             int index = categorias.indexOf(categoria);
             categorias.add(index, categoria);
-            System.out.println("Se editó correctamente");
+            System.out.println("Se editó la categoría correctamente");
         }
 
         return categoria;
@@ -53,7 +54,7 @@ public class InMemoryCategoriaDao implements CategoriaDao {
     }
 
     @Override
-    public Categoria buscarCategoria(String id) {
+    public Categoria buscarCategoria(String id) throws NoSuchElementException{
 
         Categoria categoriaEncontrada = null;
 
@@ -65,8 +66,9 @@ public class InMemoryCategoriaDao implements CategoriaDao {
                 }
             }
         }
-        else {
-            System.out.println("La lista de categorias esta vacia");
+
+        if (categoriaEncontrada == null) {
+            throw new NoSuchElementException("La categoría no existe");
         }
 
         return categoriaEncontrada;
