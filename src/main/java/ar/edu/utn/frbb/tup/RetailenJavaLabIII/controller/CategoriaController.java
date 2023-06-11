@@ -25,18 +25,21 @@ public class CategoriaController {
         return categoriaBusiness.altaCategoria(dto);
     }
 
-    @ResponseStatus(HttpStatus.OK)
     @PutMapping(value = "/categoria/{id}")
-    public Categoria editarCategoria(@RequestBody CategoriaDto dto, @PathVariable String id){
+    public ResponseEntity<Categoria> editarCategoria(@RequestBody CategoriaDto dto, @PathVariable String id){
         dto.setId(id);
-        return categoriaBusiness.modificarCategoria(dto);
+
+        return Optional.ofNullable(categoriaBusiness.modificarCategoria(dto))
+                        .map(ResponseEntity::ok)
+                        .orElse(ResponseEntity.notFound().build());
     }
 
-    @ResponseStatus(HttpStatus.OK)
     @DeleteMapping(value = "/categoria/{id}")
-    public String eliminarCategoria(@PathVariable String id){
+    public ResponseEntity<?> eliminarCategoria(@PathVariable String id){
         CategoriaDto dto = new CategoriaDto(id);
-        return categoriaBusiness.bajaCategoria(dto) ? "La categoria fue eliminada con exito" : "La categoria no existe";
+        boolean seElimino = categoriaBusiness.bajaCategoria(dto);
+
+        return seElimino ? ResponseEntity.ok("La categoría fue eliminado con éxito") : ResponseEntity.notFound().build();
     }
 
     @GetMapping(value = "/categoria/{id}")
@@ -51,23 +54,26 @@ public class CategoriaController {
 
         if (marca != null){
             productos = categoriaBusiness.getProductosByMarca(dto, marca);
-            return ResponseEntity.ok(productos);
+            return !productos.isEmpty() ? ResponseEntity.ok(productos) : ResponseEntity.notFound().build();
         }
         else if (orden != null){
 
             if (orden.equalsIgnoreCase("asc")) {
                 productos = categoriaBusiness.getProductosOrdenadosByPrecioAsc(dto);
-                return ResponseEntity.ok(productos);
+                return !productos.isEmpty() ? ResponseEntity.ok(productos) : ResponseEntity.notFound().build();
 
             } else if (orden.equalsIgnoreCase("desc")) {
                 productos = categoriaBusiness.getProductosOrdenadosByPrecioDesc(dto);
-                return ResponseEntity.ok(productos);
+                return !productos.isEmpty() ? ResponseEntity.ok(productos) : ResponseEntity.notFound().build();
+            }
+            else{
+                return ResponseEntity.notFound().build();
             }
 
         }
         else if (min != null && max != null){
             productos = categoriaBusiness.getProductosFiltradosByPrecios(dto, min, max);
-            return ResponseEntity.ok(productos);
+            return !productos.isEmpty() ? ResponseEntity.ok(productos) : ResponseEntity.notFound().build();
         }
 
         return Optional.ofNullable(categoriaBusiness.consultarCategoriaById(id))
