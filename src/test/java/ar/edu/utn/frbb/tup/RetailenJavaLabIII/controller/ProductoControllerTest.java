@@ -2,7 +2,6 @@ package ar.edu.utn.frbb.tup.RetailenJavaLabIII.controller;
 
 import ar.edu.utn.frbb.tup.RetailenJavaLabIII.BaseTest;
 import ar.edu.utn.frbb.tup.RetailenJavaLabIII.dto.ProductoDto;
-import ar.edu.utn.frbb.tup.RetailenJavaLabIII.model.Categoria;
 import ar.edu.utn.frbb.tup.RetailenJavaLabIII.persistence.dao.CategoriaDao;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,6 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class ProductoControllerTest extends BaseTest {
 
     private ObjectMapper mapper;
+    ProductoDto dto;
 
     @Autowired
     private MockMvc mockMvc;
@@ -32,17 +32,12 @@ public class ProductoControllerTest extends BaseTest {
     @BeforeEach
     void configurar() {
         mapper = new ObjectMapper();
+        dto = new ProductoDto("Camiseta Argentina", "Camiseta Argentina 2022 original", categoria1.getId(), "Adidas", 25000, "Camisetas", especificaciones);
     }
 
     @Test
-    public void crearProducto() throws Exception {
-
-        Categoria cat = new Categoria("Alfa-123", "Salud y Aire libre", "Categoría de productos deportivos");
-
-        categoriaDao.guardar(cat);
-
-        ProductoDto dto = new ProductoDto("Camiseta Argentina", "Camiseta Argentina 2022 original", "Alfa-123", "Adidas", 25000, "Camisetas", especificaciones);
-
+    public void crearProductoOk() throws Exception {
+        categoriaDao.guardar(categoria1);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/producto")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -56,6 +51,16 @@ public class ProductoControllerTest extends BaseTest {
                 .andExpect(jsonPath("$.marca").value(dto.getMarca()))
                 .andExpect(jsonPath("$.precio").value(dto.getPrecio()))
                 .andExpect(jsonPath("$.tipo").value(dto.getTipo()))
+                .andExpect(jsonPath("$.tipo").isNotEmpty())
                 .andDo(MockMvcResultHandlers.print());
+    }
+
+    @Test
+    public void crearProductoNotFound() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.post("/producto")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(mapper.writeValueAsString(dto))
+                        .accept(MediaType.APPLICATION_JSON))
+                        .andExpect(status().isNotFound());
     }
 }

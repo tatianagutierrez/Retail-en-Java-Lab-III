@@ -1,37 +1,32 @@
 package ar.edu.utn.frbb.tup.RetailenJavaLabIII.controller;
 
-import ar.edu.utn.frbb.tup.RetailenJavaLabIII.business.CategoriaBusiness;
+import ar.edu.utn.frbb.tup.RetailenJavaLabIII.BaseTest;
 import ar.edu.utn.frbb.tup.RetailenJavaLabIII.dto.CategoriaDto;
+import ar.edu.utn.frbb.tup.RetailenJavaLabIII.persistence.dao.CategoriaDao;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
-//@WebMvcTest(CategoriaController.class)
 @AutoConfigureMockMvc
-//@TestInstance(TestInstance.Lifecycle.PER_CLASS) no se bien para que sirve
-public class CategoriaControllerTest {
+public class CategoriaControllerTest extends BaseTest {
 
     private ObjectMapper mapper;
 
     @Autowired
     private MockMvc mockMvc;
 
-    /*
-    @MockBean
-    CategoriaBusiness categoriaBusiness;
-    */
+    @Autowired
+    private CategoriaDao categoriaDao;
 
     @BeforeEach
     void configurar() {
@@ -39,7 +34,7 @@ public class CategoriaControllerTest {
     }
 
     @Test
-    public void crearCategoriaTest() throws Exception {
+    public void crearCategoria() throws Exception {
         CategoriaDto dto = new CategoriaDto("Electrodomesticos", "Objetos para el hogar");
 
         mockMvc.perform(MockMvcRequestBuilders.post("/categoria")
@@ -47,15 +42,26 @@ public class CategoriaControllerTest {
                         .content(mapper.writeValueAsString(dto))
                         .accept(MediaType.APPLICATION_JSON))
                         .andExpect(status().isOk())
-                        .andExpect(jsonPath("$.nombre").value("Electrodomesticos"))
-                        .andExpect(jsonPath("$.descripcion").value("Objetos para el hogar"))
+                        .andExpect(jsonPath("$.nombre").value(dto.getNombre()))
+                        .andExpect(jsonPath("$.descripcion").value(dto.getDescripcion()))
                         .andDo(MockMvcResultHandlers.print());
+    }
 
+    @Test
+    public void eliminarCategoriaOk() throws Exception {
+        categoriaDao.guardar(categoria1);
 
+        mockMvc.perform(MockMvcRequestBuilders.delete("/categoria/{id}", categoria1.getId()))
+                        .andExpect(status().isOk())
+                        .andDo(MockMvcResultHandlers.print())
+                        .andExpect(content().string("La categoría fue eliminado con éxito"));
+    }
 
-
-        //Mockito.verify(categoriaBusiness, Mockito.times(1)).altaCategoria(dto);
-
+    @Test
+    public void eliminarCategoriaNotFound() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.delete("/categoria/{id}", categoria1.getId()))
+                .andExpect(status().isNotFound())
+                .andDo(MockMvcResultHandlers.print());
     }
 
 }
