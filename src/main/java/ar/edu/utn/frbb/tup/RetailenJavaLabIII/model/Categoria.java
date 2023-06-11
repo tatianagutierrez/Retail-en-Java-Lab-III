@@ -6,7 +6,7 @@ public class Categoria {
     private String id;
     private String nombre;
     private String descripcion;
-    private ArrayList<Producto> listaProductos;
+    private final ArrayList<Producto> listaProductos = new ArrayList<>();
 
     public Categoria(){}
 
@@ -44,7 +44,17 @@ public class Categoria {
         return listaProductos;
     }
 
-    public void setListaProductos(ArrayList<Producto> listaProductos) {
-        this.listaProductos = listaProductos;
+    public void agregarProducto(Producto producto) {
+        listaProductos.add(producto);
+    }
+
+    @Override
+    public String toString() {
+        return "Categoria{" +
+                "id='" + id + '\'' +
+                ", nombre='" + nombre + '\'' +
+                ", descripcion='" + descripcion + '\'' +
+                ", listaProductos=" + listaProductos +
+                '}';
     }
 }
