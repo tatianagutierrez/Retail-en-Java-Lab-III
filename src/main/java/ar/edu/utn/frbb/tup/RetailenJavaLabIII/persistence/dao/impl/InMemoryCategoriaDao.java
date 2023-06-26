@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 @Repository
 public class InMemoryCategoriaDao implements CategoriaDao {
 
-    private ArrayList<Categoria> categorias = new ArrayList<>();
+    private final ArrayList<Categoria> categorias = new ArrayList<>();
 
     private ArrayList<Producto> getProductos(Categoria categoria){
         return categoria.getListaProductos();

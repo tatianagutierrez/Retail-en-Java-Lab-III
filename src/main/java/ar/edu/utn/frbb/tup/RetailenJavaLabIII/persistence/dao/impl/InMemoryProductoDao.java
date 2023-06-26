@@ -18,7 +18,7 @@ public class InMemoryProductoDao implements ProductoDao {
     // Aca se encuentran todos los productos sin importar su categoria.
     private final ArrayList<Producto> todosLosProductos = new ArrayList<>();
 
-    public ArrayList<Producto> productosDeCategoria(Categoria categoria){
+    private ArrayList<Producto> getProductosDeCategoria(Categoria categoria){
         return categoria.getListaProductos();
     }
 
@@ -53,8 +53,8 @@ public class InMemoryProductoDao implements ProductoDao {
         try {
             Categoria categoria = categoriaDao.buscarCategoria(producto.getCategoriaId());
 
-            int index = productosDeCategoria(categoria).indexOf(producto);
-            productosDeCategoria(categoria).add(index, producto);
+            int index = getProductosDeCategoria(categoria).indexOf(producto);
+            getProductosDeCategoria(categoria).add(index, producto);
 
             int index2 = todosLosProductos.indexOf(producto);
             todosLosProductos.add(index2, producto);
@@ -73,7 +73,7 @@ public class InMemoryProductoDao implements ProductoDao {
 
         try {
             Categoria categoria = categoriaDao.buscarCategoria(producto.getCategoriaId());
-            productosDeCategoria(categoria).remove(producto);
+            getProductosDeCategoria(categoria).remove(producto);
             todosLosProductos.remove(producto);
             return true;
         } catch (NoSuchElementException e) {

@@ -31,7 +31,9 @@ public class CategoriaBusinessImplementation implements CategoriaBusiness {
         categoria.setNombre(dto.getNombre());
         categoria.setDescripcion(dto.getDescripcion());
 
-        return dao.guardar(categoria);
+        dao.guardar(categoria);
+
+        return categoria;
     }
 
     @Override

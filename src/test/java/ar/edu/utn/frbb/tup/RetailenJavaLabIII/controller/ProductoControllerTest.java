@@ -32,12 +32,13 @@ public class ProductoControllerTest extends BaseTest {
     @BeforeEach
     void configurar() {
         mapper = new ObjectMapper();
-        dto = new ProductoDto("Camiseta Argentina", "Camiseta Argentina 2022 original", categoria1.getId(), "Adidas", 25000, "Camisetas", especificaciones);
     }
 
     @Test
     public void crearProductoOk() throws Exception {
         categoriaDao.guardar(categoria1);
+
+        dto = new ProductoDto("Camiseta Argentina", "Camiseta Argentina 2022 original", categoria1.getId(), "Adidas", 25000, "Camisetas", especificaciones);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/producto")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -57,6 +58,9 @@ public class ProductoControllerTest extends BaseTest {
 
     @Test
     public void crearProductoNotFound() throws Exception {
+        //La categoria2 no fue guardada por lo tanto no existe
+        dto = new ProductoDto("Camiseta Argentina", "Camiseta Argentina 2022 original", categoria2.getId(), "Adidas", 25000, "Camisetas", especificaciones);
+
         mockMvc.perform(MockMvcRequestBuilders.post("/producto")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(mapper.writeValueAsString(dto))

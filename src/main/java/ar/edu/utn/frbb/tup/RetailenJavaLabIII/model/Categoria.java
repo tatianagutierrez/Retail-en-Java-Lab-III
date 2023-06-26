@@ -6,7 +6,7 @@ public class Categoria {
     private String id;
     private String nombre;
     private String descripcion;
-    private final ArrayList<Producto> listaProductos = new ArrayList<>();
+    private ArrayList<Producto> listaProductos = new ArrayList<>();
 
     public Categoria(){}
 

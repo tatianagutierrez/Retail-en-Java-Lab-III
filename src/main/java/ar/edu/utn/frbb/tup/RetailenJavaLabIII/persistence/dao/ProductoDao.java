@@ -1,6 +1,6 @@
 package ar.edu.utn.frbb.tup.RetailenJavaLabIII.persistence.dao;
 
-import ar.edu.utn.frbb.tup.RetailenJavaLabIII.model.Categoria;
+
 import ar.edu.utn.frbb.tup.RetailenJavaLabIII.model.Producto;
 
 import java.util.ArrayList;
