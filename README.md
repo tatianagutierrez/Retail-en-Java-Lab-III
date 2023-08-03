@@ -56,7 +56,10 @@
   
   3. El proyecto viene configurado para ejecutarse en el entorno de desarrollo y utilizar los endpoint.
   
-  4. Para probar los endpoint es recomendable utilizar Postman
+  4. Para probar los endpoint puedes dirigirte a la documentación una vez lo hayas ejecutado:
+      
+      `http://localhost:8080/doc/swagger-ui.html`
+      
   <p align="right">(<a href="#ir-arriba">Ir arriba</a>)</p>
   
 <!-- FUNCIONALIDAD DE LA APP -->
