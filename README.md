@@ -14,12 +14,7 @@
     <li><a href="#tecnologias">Tecnologías utilizadas</a></li>
     <li><a href="#instalacion">Instalación</a></li>
     <li><a href="#funcionalidad">Funcionalidad de la App</a>
-    <li><a href="#a-tener-en-cuenta">A tener en cuenta</a>
-      <ul>
-        <li><a href="#crear-persona">Crear categoría</a></li>
-        <li><a href="#ver-todas-las-personas">Crear producto</a></li>
-      </ul>
-    </li>
+    <li><a href="#a-tener-en-cuenta">A tener en cuenta</a></li>
     <li><a href="#contacto">Contacto</a>
   </ol>
 
@@ -82,6 +77,7 @@
   ### ⚠️ A tener en cuenta
   Para crear o modificar un producto es necesario contar con el identificador de la categoría a la que pertenece, si no existe deberás crear una.
 
+  <a name="crear-persona"></a>
   `/categoria` al crear la categoría devolverá un id.   
   <p align="center">
     <img src="https://github.com/tatianagutierrez/Retail-en-Java-Lab-III/blob/main/README/crear_categoria.PNG" width="600px">
@@ -101,6 +97,7 @@
   <p align="right">(<a href="#ir-arriba">Ir arriba</a>)</p>
   
 <!-- CONTACTO -->
+ <a name="contacto"></a>
   ## 📩 Contacto
   Tatiana Gutiérrez - www.linkedin.com/in/gutierrez-tatiana
   
