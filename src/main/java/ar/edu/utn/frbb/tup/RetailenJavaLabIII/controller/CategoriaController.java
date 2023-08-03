@@ -4,6 +4,7 @@ import ar.edu.utn.frbb.tup.RetailenJavaLabIII.business.CategoriaBusiness;
 import ar.edu.utn.frbb.tup.RetailenJavaLabIII.dto.CategoriaDto;
 import ar.edu.utn.frbb.tup.RetailenJavaLabIII.model.Categoria;
 import ar.edu.utn.frbb.tup.RetailenJavaLabIII.model.Producto;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -19,12 +20,14 @@ public class CategoriaController {
     @Autowired
     CategoriaBusiness categoriaBusiness;
 
+    @Operation(summary = "Crear categoría")
     @ResponseStatus(HttpStatus.OK)
     @PostMapping(value = "/categoria", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public Categoria crearCategoria(@RequestBody CategoriaDto dto){
         return categoriaBusiness.altaCategoria(dto);
     }
 
+    @Operation(summary = "Editar categoría")
     @PutMapping(value = "/categoria/{id}")
     public ResponseEntity<Categoria> editarCategoria(@RequestBody CategoriaDto dto, @PathVariable String id){
         dto.setId(id);
@@ -34,6 +37,7 @@ public class CategoriaController {
                         .orElse(ResponseEntity.notFound().build());
     }
 
+    @Operation(summary = "Eliminar categoría")
     @DeleteMapping(value = "/categoria/{id}")
     public ResponseEntity<?> eliminarCategoria(@PathVariable String id){
         CategoriaDto dto = new CategoriaDto(id);
@@ -42,6 +46,7 @@ public class CategoriaController {
         return seElimino ? ResponseEntity.ok("La categoría fue eliminado con éxito") : ResponseEntity.notFound().build();
     }
 
+    @Operation(summary = "Obtener categoría by id", description = "En caso de ingresar los parámetros opcionales se retornaran solo los productos de la categoría indicada.")
     @GetMapping(value = "/categoria/{id}")
     public ResponseEntity<?> obtenerProductos(@PathVariable String id,
                                               @RequestParam(value = "marca", required = false) String marca,
