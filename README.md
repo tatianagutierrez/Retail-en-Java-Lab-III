@@ -14,8 +14,11 @@
     <li><a href="#tecnologias">Tecnologías utilizadas</a></li>
     <li><a href="#instalacion">Instalación</a></li>
     <li><a href="#funcionalidad">Funcionalidad de la App</a>
-    <li><a href="#a-tener-en-cuenta">A tener en cuenta</a></li>
-    <li><a href="#contacto">Contacto</a>
+       <ul>
+          <li><a href="#a-tener-en-cuenta">A tener en cuenta</a></li>
+       </ul>
+    </li>
+    <li><a href="#contacto">Contacto</a></li>
   </ol>
 
 <!-- TECNOLOGÍAS UTILIZADAS -->
